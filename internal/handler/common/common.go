@@ -23,29 +23,29 @@ func NewCommonHandler(commonService service.CommonServiceInterface) *CommonHandl
 // UploadImage 上传图片
 func (commonHandler *CommonHandler) UploadImage() gin.HandlerFunc {
 	return res.Execute(func(ctx *gin.Context) res.Response {
-		// 提取上传的 File数据
-		file, err := ctx.FormFile("file")
-		if err != nil {
-			return res.Response{
-				Msg: commonModel.INVALID_REQUEST_BODY,
-				Err: err,
-			}
-		}
+		// // 提取上传的 File数据
+		// file, err := ctx.FormFile("file")
+		// if err != nil {
+		// 	return res.Response{
+		// 		Msg: commonModel.INVALID_REQUEST_BODY,
+		// 		Err: err,
+		// 	}
+		// }
 
-		// 提取userid
-		userId := ctx.MustGet("userid").(uint)
+		// // 提取userid
+		// userId := ctx.MustGet("userid").(uint)
 
-		// 调用 CommonService 上传文件
-		imageUrl, err := commonHandler.commonService.UploadImage(userId, file)
-		if err != nil {
-			return res.Response{
-				Msg: "",
-				Err: err,
-			}
-		}
+		// // 调用 CommonService 上传文件
+		// imageUrl, err := commonHandler.commonService.UploadImage(userId, file)
+		// if err != nil {
+		// 	return res.Response{
+		// 		Msg: "",
+		// 		Err: err,
+		// 	}
+		// }
 
 		return res.Response{
-			Data: imageUrl,
+			Data: "",
 			Msg:  commonModel.UPLOAD_SUCCESS,
 		}
 	})
@@ -54,26 +54,26 @@ func (commonHandler *CommonHandler) UploadImage() gin.HandlerFunc {
 // DeleteImage 删除图片
 func (commonHandler *CommonHandler) DeleteImage() gin.HandlerFunc {
 	return res.Execute(func(ctx *gin.Context) res.Response {
-		userId := ctx.MustGet("userid").(uint)
+		// userId := ctx.MustGet("userid").(uint)
 
-		var imageDto commonModel.ImageDto
-		if err := ctx.ShouldBindJSON(&imageDto); err != nil {
-			return res.Response{
-				Msg: commonModel.INVALID_REQUEST_BODY,
-				Err: err,
-			}
-		}
+		// var imageDto commonModel.ImageDto
+		// if err := ctx.ShouldBindJSON(&imageDto); err != nil {
+		// 	return res.Response{
+		// 		Msg: commonModel.INVALID_REQUEST_BODY,
+		// 		Err: err,
+		// 	}
+		// }
 
-		if err := commonHandler.commonService.DeleteImage(userId, imageDto.URL, imageDto.SOURCE); err != nil {
-			ctx.JSON(http.StatusOK, commonModel.Fail[string](errorUtil.HandleError(&commonModel.ServerError{
-				Msg: "",
-				Err: err,
-			})))
-			return res.Response{
-				Msg: "",
-				Err: err,
-			}
-		}
+		// if err := commonHandler.commonService.DeleteImage(userId, imageDto.URL, imageDto.SOURCE); err != nil {
+		// 	ctx.JSON(http.StatusOK, commonModel.Fail[string](errorUtil.HandleError(&commonModel.ServerError{
+		// 		Msg: "",
+		// 		Err: err,
+		// 	})))
+		// 	return res.Response{
+		// 		Msg: "",
+		// 		Err: err,
+		// 	}
+		// }
 
 		return res.Response{
 			Msg: commonModel.DELETE_SUCCESS,
@@ -146,27 +146,27 @@ func (commonHandler *CommonHandler) GetRss(ctx *gin.Context) {
 func (commonHandler *CommonHandler) UploadAudio() gin.HandlerFunc {
 	return res.Execute(func(ctx *gin.Context) res.Response {
 		// 提取userid
-		userId := ctx.MustGet("userid").(uint)
+		// userId := ctx.MustGet("userid").(uint)
 
-		// 提取上传的 File数据
-		file, err := ctx.FormFile("file")
-		if err != nil {
-			return res.Response{
-				Msg: commonModel.INVALID_REQUEST_BODY,
-				Err: err,
-			}
-		}
+		// // 提取上传的 File数据
+		// file, err := ctx.FormFile("file")
+		// if err != nil {
+		// 	return res.Response{
+		// 		Msg: commonModel.INVALID_REQUEST_BODY,
+		// 		Err: err,
+		// 	}
+		// }
 
-		audioUrl, err := commonHandler.commonService.UploadMusic(userId, file)
-		if err != nil {
-			return res.Response{
-				Msg: "",
-				Err: err,
-			}
-		}
+		// audioUrl, err := commonHandler.commonService.UploadMusic(userId, file)
+		// if err != nil {
+		// 	return res.Response{
+		// 		Msg: "",
+		// 		Err: err,
+		// 	}
+		// }
 
 		return res.Response{
-			Data: audioUrl,
+			Data: "",
 			Msg:  commonModel.UPLOAD_SUCCESS,
 		}
 	})
@@ -175,15 +175,15 @@ func (commonHandler *CommonHandler) UploadAudio() gin.HandlerFunc {
 // DeleteAudio 删除音频
 func (commonHandler *CommonHandler) DeleteAudio() gin.HandlerFunc {
 	return res.Execute(func(ctx *gin.Context) res.Response {
-		// 提取userid
-		userId := ctx.MustGet("userid").(uint)
+		// // 提取userid
+		// userId := ctx.MustGet("userid").(uint)
 
-		if err := commonHandler.commonService.DeleteMusic(userId); err != nil {
-			return res.Response{
-				Msg: "",
-				Err: err,
-			}
-		}
+		// if err := commonHandler.commonService.DeleteMusic(userId); err != nil {
+		// 	return res.Response{
+		// 		Msg: "",
+		// 		Err: err,
+		// 	}
+		// }
 
 		return res.Response{
 			Msg: commonModel.DELETE_SUCCESS,
