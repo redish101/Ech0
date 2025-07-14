@@ -18,7 +18,7 @@ func NewKeyValueRepository(db *gorm.DB) KeyValueRepositoryInterface {
 // GetKeyValue 根据键获取值
 func (keyvalueRepository *KeyValueRepository) GetKeyValue(key string) (interface{}, error) {
 	var kv model.KeyValue
-	if err := keyvalueRepository.db.Where("key = ?", key).First(&kv).Error; err != nil {
+	if err := keyvalueRepository.db.Where("`key` = ?", key).First(&kv).Error; err != nil {
 		return nil, err
 	}
 
