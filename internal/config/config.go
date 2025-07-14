@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"log"
 	"os"
+	"strings"
 
 	model "github.com/lin-snow/ech0/internal/model/common"
 	"github.com/spf13/viper"
@@ -54,8 +55,17 @@ type AppConfig struct {
 	}
 }
 
-// LoadAppConfig 加载应用程序配置
 func LoadAppConfig() {
+	if os.Getenv("RUN_ON") == "kubernetes" {
+		loadConfigFromEnvContent()
+	} else {
+		loadConfigFromFile()
+	}
+
+	JWT_SECRET = GetJWTSecret()
+}
+
+func loadConfigFromFile() {
 	viper.SetConfigFile("config/config.yaml")
 	viper.SetConfigType("yaml")
 	err := viper.ReadInConfig()
@@ -63,14 +73,30 @@ func LoadAppConfig() {
 		panic(model.READ_CONFIG_PANIC + ":" + err.Error())
 	}
 
-	// 将配置文件内容反序列化到结构体 Config 中
 	err = viper.Unmarshal(&Config)
 	if err != nil {
 		panic(model.READ_CONFIG_PANIC + ":" + err.Error())
 	}
-
-	JWT_SECRET = GetJWTSecret()
 }
+
+func loadConfigFromEnvContent() {
+	configContent := os.Getenv("CONFIG_FILE_CONTENT")
+	if configContent == "" {
+		panic(model.READ_CONFIG_PANIC + ": CONFIG_FILE_CONTENT is empty")
+	}
+
+	viper.SetConfigType("yaml")
+	err := viper.ReadConfig(strings.NewReader(configContent))
+	if err != nil {
+		panic(model.READ_CONFIG_PANIC + ":" + err.Error())
+	}
+
+	err = viper.Unmarshal(&Config)
+	if err != nil {
+		panic(model.READ_CONFIG_PANIC + ":" + err.Error())
+	}
+}
+
 
 // GetJWTSecret 加载JWT密钥
 func GetJWTSecret() []byte {
