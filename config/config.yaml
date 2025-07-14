@@ -4,8 +4,8 @@ server:
   mode: "release" # "release" or "debug"
 
 database:
-  type: "sqlite"
-  path: "data/ech0.db"
+  type: "mysql"
+  path: "user:pass@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local"
   # pragma: "_pragma=foreign_keys(1)"
 
 auth:

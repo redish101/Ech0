@@ -12,6 +12,7 @@ import (
 
 	util "github.com/lin-snow/ech0/internal/util/err"
 	"gorm.io/driver/sqlite"
+	"gorm.io/driver/mysql" // 使用 mysql 驱动
 
 	// "github.com/glebarez/sqlite" // 使用 glebarez/sqlite 作为 SQLite 驱动
 	"gorm.io/gorm"
@@ -40,6 +41,18 @@ func InitDatabase() {
 		// dsn := dbPath + "?" + pragma
 		var err error
 		DB, err = gorm.Open(sqlite.Open(dbPath), &gorm.Config{})
+		if err != nil {
+			util.HandlePanicError(&commonModel.ServerError{
+				Msg: commonModel.INIT_DATABASE_PANIC,
+				Err: err,
+			})
+		}
+	}
+
+	if dbType == "mysql" {
+		dsn := dbPath // MySQL DSN 格式为 "username:password@tcp(host:port)/dbname?charset=utf8mb4&parseTime=True&loc=Local"
+		var err error
+		DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 		if err != nil {
 			util.HandlePanicError(&commonModel.ServerError{
 				Msg: commonModel.INIT_DATABASE_PANIC,

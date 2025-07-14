@@ -8,7 +8,7 @@
 
   [预览地址](https://memo.vaaat.com/) | [官网地址](https://echo.soopy.cn/) | [官方文档](https://echodoc.soopy.cn/) | [Ech0 Hub](https://echohub.soopy.cn/)
 
-  # Ech0
+  # Ech0(Redish101 Patched Edition)
 </div>
 
 > 开源、自托管、专注思想流动的轻量级发布平台
@@ -18,6 +18,11 @@ Ech0 是一款专为轻量级分享而设计的开源自托管平台，支持快
 ![界面预览](./docs/imgs/screenshot_mockup.png)
 
 ---
+
+## 更改内容
+
+- 删除基于fs的文件上传以方便k8s部署
+- 添加mysql支持
 
 ## 核心优势
 
